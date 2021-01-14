@@ -61,7 +61,7 @@ func (e *Expression) Evaluate() (interface{}, error) {
 				case reflect.String:
 					return fmt.Sprintf("%f%s", lInterface.(float64), rInterface.(string)), nil
 				case reflect.Int64:
-					return lInterface.(float64)-float64(rInterface.(int64)) , nil
+					return lInterface.(float64) + float64(rInterface.(int64)) , nil
 				case reflect.Float64:
 					return lInterface.(float64) + rInterface.(float64), nil
 				case reflect.Bool:
