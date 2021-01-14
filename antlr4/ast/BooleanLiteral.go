@@ -1,9 +1,9 @@
 package ast
 
 type BooleanLiteral struct {
-	value bool
+	Value bool
 }
 
 func (bl *BooleanLiteral) Evaluate() (interface{}, error){
-	return bl.value, nil
+	return bl.Value, nil
 }

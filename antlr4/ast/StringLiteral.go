@@ -1,9 +1,9 @@
 package ast
 
 type StringLiteral struct {
-	value string
+	Value string
 }
 
 func (sl *StringLiteral) Evaluate() (interface{}, error) {
-	return sl.value, nil
+	return sl.Value, nil
 }

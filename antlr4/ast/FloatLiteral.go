@@ -1,9 +1,9 @@
 package ast
 
 type FloatLiteral struct {
-	value float64
+	Value float64
 }
 
 func (fl *FloatLiteral) Evaluate() (interface{}, error) {
-	return fl.value, nil
+	return fl.Value, nil
 }

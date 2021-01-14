@@ -22,5 +22,18 @@ func (c *Constant) Evaluate() (interface{}, error){
 	if c.float != nil {
 		return c.float.Evaluate()
 	}
-	return nil, fmt.Errorf("unknown constant value")
+	return nil, fmt.Errorf("unknown constant Value")
+}
+
+func (c *Constant)  AcceptStringLiteral(l *StringLiteral) {
+	c.str = l
+}
+func (c *Constant)  AcceptIntegerLiteral(l *IntegerLiteral) {
+	c.integer = l
+}
+func (c *Constant)  AcceptFloatLiteral(l *FloatLiteral) {
+	c.float = l
+}
+func (c *Constant)  AcceptBooleanLiteral(l *BooleanLiteral) {
+	c.bool = l
 }

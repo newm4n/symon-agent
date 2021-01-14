@@ -14,6 +14,25 @@ type Expression struct {
 	operator *Operator
 }
 
+func (e *Expression) AcceptChildExpression(expr *Expression) {
+	if e.leftExpression == nil {
+		e.leftExpression = expr
+	}
+	e.rightExpression = expr
+}
+
+func (e *Expression) AcceptOperator(op *Operator) {
+	e.operator = op
+}
+
+func (e *Expression) AcceptFunction(fun *Function) {
+	e.function = fun
+}
+
+func (e *Expression) AcceptConstant(constant *Constant) {
+	e.constant = constant
+}
+
 func (e *Expression) Evaluate() (interface{}, error) {
 	if e.constant != nil {
 		return e.constant.Evaluate()
@@ -30,7 +49,7 @@ func (e *Expression) Evaluate() (interface{}, error) {
 		if err != nil {
 			return nil, err
 		}
-		op := e.operator.operator
+		op := e.operator.Operator
 		switch op {
 		case "+" :
 			switch reflect.ValueOf(lInterface).Kind() {
@@ -54,7 +73,7 @@ func (e *Expression) Evaluate() (interface{}, error) {
 				case reflect.Float64:
 					return float64(lInterface.(int64)) + rInterface.(float64), nil
 				case reflect.Bool:
-					return nil, fmt.Errorf("can not ADD an integer to a boolean value")
+					return nil, fmt.Errorf("can not ADD an integer to a boolean Value")
 				}
 			case reflect.Float64:
 				switch reflect.ValueOf(rInterface).Kind() {
@@ -65,16 +84,16 @@ func (e *Expression) Evaluate() (interface{}, error) {
 				case reflect.Float64:
 					return lInterface.(float64) + rInterface.(float64), nil
 				case reflect.Bool:
-					return nil, fmt.Errorf("can not ADD a float to a boolean value")
+					return nil, fmt.Errorf("can not ADD a float to a boolean Value")
 				}
 			case reflect.Bool:
 				switch reflect.ValueOf(rInterface).Kind() {
 				case reflect.String:
 					return fmt.Sprintf("%v%s", lInterface.(bool), rInterface.(string)), nil
 				case reflect.Int64:
-					return nil, fmt.Errorf("can not ADD a boolean to an integer value")
+					return nil, fmt.Errorf("can not ADD a boolean to an integer Value")
 				case reflect.Float64:
-					return nil, fmt.Errorf("can not ADD a boolean to a float value")
+					return nil, fmt.Errorf("can not ADD a boolean to a float Value")
 				case reflect.Bool:
 					return nil, fmt.Errorf("can not ADD between two boolean values")
 				}
@@ -103,7 +122,7 @@ func (e *Expression) Evaluate() (interface{}, error) {
 				case reflect.Float64:
 					return lInterface.(float64) - rInterface.(float64), nil
 				case reflect.Bool:
-					return nil, fmt.Errorf("can not SUB a float to a boolean value")
+					return nil, fmt.Errorf("can not SUB a float to a boolean Value")
 				}
 			case reflect.Bool:
 				return nil, fmt.Errorf("can not SUB a boolean")

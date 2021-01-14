@@ -33,6 +33,8 @@ func TestExpression_EvaluateAddition(t *testing.T) {
 		{ left : false, right : "123", operator: "+", isError : false, expect : "false123"},
 		{ left : false, right : true, operator: "+", isError : true, expect: nil},
 
+
+		{ left : int64(123), right : int64(23), operator: "-", isError : false, expect : int64(100)},
 		// add more sample for
 		// - * / % && || == != < <= > >=
 	}
@@ -44,19 +46,19 @@ func TestExpression_EvaluateAddition(t *testing.T) {
 		switch reflect.ValueOf(td.left).Kind() {
 		case reflect.Int64:
 			LeftExpr = &Expression{
-				constant:        &Constant{integer: &IntegerLiteral{value: td.left.(int64)}},
+				constant:        &Constant{integer: &IntegerLiteral{Value: td.left.(int64)}},
 			}
 		case reflect.Float64:
 			LeftExpr = &Expression{
-				constant:        &Constant{float: &FloatLiteral{value: td.left.(float64)}},
+				constant:        &Constant{float: &FloatLiteral{Value: td.left.(float64)}},
 			}
 		case reflect.String:
 			LeftExpr = &Expression{
-				constant:        &Constant{str: &StringLiteral{value: td.left.(string)}},
+				constant:        &Constant{str: &StringLiteral{Value: td.left.(string)}},
 			}
 		case reflect.Bool:
 			LeftExpr = &Expression{
-				constant:        &Constant{bool: &BooleanLiteral{value: td.left.(bool)}},
+				constant:        &Constant{bool: &BooleanLiteral{Value: td.left.(bool)}},
 			}
 		default:
 			t.Errorf("%d -> Left Not supported kind %s", i, reflect.ValueOf(td.left).Kind().String())
@@ -65,19 +67,19 @@ func TestExpression_EvaluateAddition(t *testing.T) {
 		switch reflect.ValueOf(td.right).Kind() {
 		case reflect.Int64:
 			RightExpr = &Expression{
-				constant:        &Constant{integer: &IntegerLiteral{value: td.right.(int64)}},
+				constant:        &Constant{integer: &IntegerLiteral{Value: td.right.(int64)}},
 			}
 		case reflect.Float64:
 			RightExpr = &Expression{
-				constant:        &Constant{float: &FloatLiteral{value: td.right.(float64)}},
+				constant:        &Constant{float: &FloatLiteral{Value: td.right.(float64)}},
 			}
 		case reflect.String:
 			RightExpr = &Expression{
-				constant:        &Constant{str: &StringLiteral{value: td.right.(string)}},
+				constant:        &Constant{str: &StringLiteral{Value: td.right.(string)}},
 			}
 		case reflect.Bool:
 			RightExpr = &Expression{
-				constant:        &Constant{bool: &BooleanLiteral{value: td.right.(bool)}},
+				constant:        &Constant{bool: &BooleanLiteral{Value: td.right.(bool)}},
 			}
 		default:
 			t.Errorf("%d -> Right Not supported kind %s", i, reflect.ValueOf(td.right).Kind().String())
@@ -86,7 +88,7 @@ func TestExpression_EvaluateAddition(t *testing.T) {
 		MainExpression := &Expression{
 			leftExpression:  LeftExpr,
 			rightExpression: RightExpr,
-			operator:        &Operator{operator: td.operator},
+			operator:        &Operator{Operator: td.operator},
 		}
 
 		intf, err := MainExpression.Evaluate()
